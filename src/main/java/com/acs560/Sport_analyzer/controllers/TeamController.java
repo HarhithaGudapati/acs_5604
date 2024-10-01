@@ -1,69 +1,48 @@
 package com.acs560.Sport_analyzer.controllers;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.acs560.Sport_analyzer.models.Team;
-import com.acs560.Sport_analyzer.services.TeamService;
-import lombok.NoArgsConstructor;
+import sports.acs560.performance_analyzer.models.Team;
+import sports.acs560.performance_analyzer.services.TeamService;
+
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1/teams")
-@NoArgsConstructor
-
+@RequestMapping("/api/teams")
 public class TeamController {
 
     @Autowired
-    public TeamService teamService;
-
-    public TeamController(TeamService teamService) {
-        this.teamService = teamService;
-    }
-    
+    private TeamService teamService;
 
     @GetMapping
-    public List<Team> getTeams() {
+    public Iterable<Team> getAllTeams() {
         return teamService.getTeams();
     }
-    
-//    @GetMapping{"/test"}
-//    public String getTeams1() {
-//        return "Hi";
-//    }
 
-    @GetMapping("/{name}")
-    public Team getTeamByName(@PathVariable String name) {
+    @GetMapping("/{year}")
+    public Optional<Team> getTeamById(@PathVariable Integer year) {
+        return teamService.getTeamById(year);
+    }
+
+    @GetMapping("/name/{name}")
+    public Iterable<Team> getTeamByName(@PathVariable String name) {
         return teamService.getTeamByName(name);
     }
-   
-    
-    @GetMapping("/year/{year}")
-    public List<Team> getTeamsByYear(@PathVariable int year) {
-        return teamService.getTeamsByYear(year);
+
+    @PostMapping
+    public Team addTeam(@RequestBody Team team) {
+        return teamService.addTeam(team);
     }
 
-    @GetMapping("/league/{league}")
-    public List<Team> getTeamsByLeague(@PathVariable String league) {
-        return teamService.getTeamsByLeague(league);
-    }
-    
-    @GetMapping("/wins/{wins}")
-    public List<Team> getTeamsByWins(@PathVariable int wins) {
-        return teamService.getTeamsByWins(wins);
+    @PutMapping("/{year}")
+    public Team updateTeam(@RequestBody Team team, @PathVariable Integer year) {
+        team.setYear(year); // Ensure the ID (year) is set for the update
+        return teamService.updateTeam(team);
     }
 
-    @GetMapping("/losses/{losses}")
-    public List<Team> getTeamsByLosses(@PathVariable int losses) {
-        return teamService.getTeamsByLosses(losses);
-    }
-
-    @GetMapping("/points/{points}")
-    public List<Team> getTeamsByPoints(@PathVariable int points) {
-        return teamService.getTeamsByPoints(points);
+    @DeleteMapping("/{year}")
+    public void deleteTeam(@PathVariable Integer year) {
+        teamService.deleteTeam(year);
     }
 }

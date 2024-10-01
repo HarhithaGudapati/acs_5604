@@ -1,24 +1,44 @@
 package com.acs560.Sport_analyzer.services;
 
-import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.acs560.Sport_analyzer.models.Team;
+import com.acs560.Sport_analyzer.repositories.TeamRepository;
+
+import sports.acs560.performance_analyzer.models.Team;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
+public class TeamService {
 
-public interface TeamService {
+    @Autowired
+    private TeamRepository teamRepository;
 
-    List<Team> getTeams();
+    public Iterable<Team> getAllTeams() {
+        return teamRepository.findAll();
+    }
 
-    Team getTeamByName(String name);
-    List<Team> getTeamsByYear(int year);
+    public Optional<Team> getTeamById(Integer year) {
+        return teamRepository.findById(year);
+    }
 
-    List<Team> getTeamsByLeague(String league);
-    List<Team> getTeamsByWins(int wins);
+    public List<Team> getTeamByName(String name) {
+        return teamRepository.findByName(name);
+    }
 
-    List<Team> getTeamsByLosses(int losses);
+    public Team addTeam(Team team) {
+        return teamRepository.save(team);
+    }
 
-    List<Team> getTeamsByPoints(int points);
+    public Team updateTeam(Team team) {
+        return teamRepository.save(team);
+    }
+
+    public void deleteTeam(Integer year) {
+        teamRepository.deleteById(year);
+    }
 }
+
