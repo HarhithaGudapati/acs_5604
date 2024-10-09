@@ -1,35 +1,10 @@
-/*	package com.acs560.Sport_analyzer.exception;
-	
-	import org.springframework.core.annotation.Order;
-	import org.springframework.http.ResponseEntity;
-	import org.springframework.web.bind.annotation.ExceptionHandler;
-	import org.springframework.web.bind.annotation.RestControllerAdvice;
-	
-	import java.util.NoSuchElementException;
-	
-	import org.springframework.core.Ordered;
-	
-	@RestControllerAdvice
-	@Order(Ordered.HIGHEST_PRECEDENCE)
-	public class TeamExceptionHandler {
-	
-	    @ExceptionHandler(NoSuchElementException.class)
-	    public ResponseEntity<String> handleNoSuchElementException() {
-	        return ResponseEntity.badRequest().body("No match found");
-	    }
-	}
-*/
-
-
-
-// Exception handler class
-
 package com.acs560.Sport_analyzer.exception;
-
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import java.util.NoSuchElementException;
 
@@ -50,6 +25,11 @@ public class TeamExceptionHandler {
     public ResponseEntity<String> handleNoSuchElementException(NoSuchElementException ex) {
         return ResponseEntity.notFound().build();
     }
+    
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<String> handleNoResourceFoundException(NoResourceFoundException ex) {
+    	return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resource not found");
+    }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
@@ -61,4 +41,6 @@ public class TeamExceptionHandler {
         ex.printStackTrace();
         return ResponseEntity.internalServerError().body("We're sorry...but we failed :(");
     }
+    
+    
 }

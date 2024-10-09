@@ -1,29 +1,32 @@
 package com.acs560.Sport_analyzer.repositories;
 
+import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
 
-import sports.acs560.performance_analyzer.models.Team;
+import com.acs560.Sport_analyzer.entities.TeamEntity;
+import com.acs560.Sport_analyzer.entities.TeamEntityId;
 
-import java.util.List;
-import java.util.Optional;
+public interface TeamRepository extends CrudRepository<TeamEntity, TeamEntityId> {
 
-@Repository
-public interface TeamRepository extends CrudRepository<Team, Long> {
+	List<TeamEntity> findAllByIdName(String name);
+	
+	List<TeamEntity> findAllByIdYearAndIdName(int year, String name);
 
-    List<Team> findByName(String name);
+	List<TeamEntity> findAllByIdYear(int year);
+	
+	List<TeamEntity> findAllByIdYearIn(Set<Integer> years);
+	
+	List<TeamEntity> findAllByIdNameAndIdYearIn(String name, Set<Integer> years);
 
-    List<Team> findByYear(int year);
-
-    List<Team> findByLeague(String league);
-
-    List<Team> findByWins(int wins);
-
-    List<Team> findByLosses(int losses);
-
-    List<Team> findByPoints(int points);
 }
+
+
+
+
+
+
 
 
 

@@ -1,48 +1,93 @@
 package com.acs560.Sport_analyzer.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import sports.acs560.performance_analyzer.models.Team;
-import sports.acs560.performance_analyzer.services.TeamService;
-
+import java.util.List;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/api/teams")
-public class TeamController {
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.acs560.Sport_analyzer.models.Team;
+import com.acs560.Sport_analyzer.services.TeamService;
+import lombok.NoArgsConstructor;
+
+
+@RestController()
+@RequestMapping("/api/v1/teams")
+@NoArgsConstructor
+public class TeamController {
     @Autowired
     private TeamService teamService;
 
+    /**
+     * Get all teams
+     * @return - the list of @Team
+     */
     @GetMapping
-    public Iterable<Team> getAllTeams() {
-        return teamService.getTeams();
+    public ResponseEntity<List<Team>> getTeams() {
+        return ResponseEntity.ok(teamService.getTeams());
     }
 
-    @GetMapping("/{year}")
-    public Optional<Team> getTeamById(@PathVariable Integer year) {
-        return teamService.getTeamById(year);
-    }
-
+    /**
+     * Get a team
+     * @param name - name of the team
+     * @return - the @Team
+     */
     @GetMapping("/name/{name}")
-    public Iterable<Team> getTeamByName(@PathVariable String name) {
-        return teamService.getTeamByName(name);
+    public ResponseEntity<Team> getTeam(@PathVariable String name) {
+        Optional<Team> team = teamService.getTeam(name, 0);
+        ResponseEntity<Team> response = team.isPresent() ? ResponseEntity.ok(team.get()) : ResponseEntity.notFound().build();
+        return response;
     }
 
-    @PostMapping
-    public Team addTeam(@RequestBody Team team) {
-        return teamService.addTeam(team);
+    /**
+     * Get teams filtered by year
+     * @param year - the year
+     * @return - list of all teams filtered by year
+     */
+    @GetMapping("/year/{year}")
+    public ResponseEntity<Object> getTeams(@PathVariable int year) {
+        return ResponseEntity.ok(teamService.getTeams(year));
     }
 
-    @PutMapping("/{year}")
-    public Team updateTeam(@RequestBody Team team, @PathVariable Integer year) {
-        team.setYear(year); // Ensure the ID (year) is set for the update
-        return teamService.updateTeam(team);
+    /**
+     * Get teams filtered by league
+     * @param league - the league
+     * @return - list of all teams filtered by league
+     */
+    @GetMapping("/league/{league}")
+    public ResponseEntity<Object> getTeams(@PathVariable String league) {
+        return ResponseEntity.ok(teamService.getTeams(league));
     }
 
-    @DeleteMapping("/{year}")
-    public void deleteTeam(@PathVariable Integer year) {
-        teamService.deleteTeam(year);
+    @GetMapping("/year/{year}/league/{league}")
+    public ResponseEntity<Object> getTeams(@PathVariable int year, @PathVariable String league) {
+        return ResponseEntity.ok(teamService.getTeams(league, year));
+    }
+
+    @PostMapping()
+    public ResponseEntity<Team> add(@RequestBody Team team) {
+        teamService.addTeam(team);
+        return ResponseEntity.created(null).build();
+    }
+
+    @PutMapping()
+    public ResponseEntity<Team> update(@RequestBody Team team) {
+        teamService.updateTeam(team);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping()
+    public ResponseEntity<Team> delete(@RequestBody Team team) {
+        teamService.deleteTeam(team);
+        return ResponseEntity.ok().build();
     }
 }
+

@@ -1,44 +1,66 @@
 package com.acs560.Sport_analyzer.services;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.acs560.Sport_analyzer.repositories.TeamRepository;
-
-import sports.acs560.performance_analyzer.models.Team;
-
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class TeamService {
+import com.acs560.Sport_analyzer.models.Team;
+public interface TeamService {
+	
+	/**
+	 * Get a team by name and year
+	 * @param name - the name
+	 * @param year - the year
+	 * @return - the Team
+	 */
+	Optional<Team> getTeam(String name, int year);
+	
+	/**
+	 * Get the list of all teams
+	 * @return - the list of teams
+	 */
+	List<Team> getTeams();
+	
+	/**
+	 * Get the teams filtered by name
+	 * @param name - the name
+	 * @return - the list of teams filtered by name
+	 */
+	List<Team> getTeams(String name);
+	
+	/**
+	 * Get the teams filtered by name and year
+	 * @param name - the name
+	 * @param year - the year
+	 * @return
+	 */
+	List<Team> getTeams(String name, int year);
+	
+	void addTeam(Team team);
+	void deleteTeam(Team team);
+	void updateTeam(Team team);
 
-    @Autowired
-    private TeamRepository teamRepository;
+	List<Team> getTeams(int year);
+	
+	List<Team> getTeams(int year, int range);
 
-    public Iterable<Team> getAllTeams() {
-        return teamRepository.findAll();
-    }
+	List<Team> getTeams(String name, int year, int range);
 
-    public Optional<Team> getTeamById(Integer year) {
-        return teamRepository.findById(year);
-    }
+	//Object getTeamsByYear(int year);
 
-    public List<Team> getTeamByName(String name) {
-        return teamRepository.findByName(name);
-    }
+	//Optional<Team> getTeamByName(String name);
 
-    public Team addTeam(Team team) {
-        return teamRepository.save(team);
-    }
+	//Object getTeamsByLeague(String league);
 
-    public Team updateTeam(Team team) {
-        return teamRepository.save(team);
-    }
+	//Object getTeamsByYearAndLeague(int year, String league);
 
-    public void deleteTeam(Integer year) {
-        teamRepository.deleteById(year);
-    }
+	//void delete(Team team);
+
+	//void update(Team team);
+
+	//void add(Team team);
+
+
+	
 }
 
