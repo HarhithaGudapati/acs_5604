@@ -4,9 +4,9 @@ import java.util.NoSuchElementException;
 
 public interface TeamAnalysisService {
 
-	double calculateAverageWins(String league) throws NoSuchElementException;
+	double calculateAverageWinsForYear(int year) throws NoSuchElementException;
 	
-	double calculateAverageWins(String league, int year) throws NoSuchElementException;
+	double calculateAverageWinsForYearAndRange(int year, int Range) throws NoSuchElementException;
 	
 	double calculateMeanWins() throws NoSuchElementException;
 	

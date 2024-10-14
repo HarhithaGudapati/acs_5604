@@ -47,9 +47,9 @@ public class Team {
 	}
 	
 	public Team(TeamEntity te) {
-		this(te.getId().getYear(),
-				te.getId().getName(),
-				te.getId().getLeague(),
+		this(te.getId().getLeagueyear(),
+				te.getId().getTeam(),
+				te.getLeague(),
 				te.getWins(),
 				te.getLosses(),
 				te.getPoints());

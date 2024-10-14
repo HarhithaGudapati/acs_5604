@@ -21,14 +21,14 @@ public class TeamAnslysisController {
 		this.teamAnalysisService = teamAnalysisService;
 	}
 
-	@GetMapping("/average/wins/{league}")
-	public double getAverageWins(@PathVariable String league) {
-		return teamAnalysisService.calculateAverageWins(league);
+	@GetMapping("/average/wins/{year}")
+	public double getAverageWins(@PathVariable int year) {
+		return teamAnalysisService.calculateAverageWinsForYear(year);
 	}
 	
-	@GetMapping("/average/wins/{league}/{year}")
-	public double getAverageWins(@PathVariable String league, @PathVariable int year) {
-		return teamAnalysisService.calculateAverageWins(league, year);
+	@GetMapping("/average/wins/{year}/{Range}")
+	public double getAverageWins(@PathVariable int year, @PathVariable int Range) {
+		return teamAnalysisService.calculateAverageWinsForYearAndRange(year, Range);
 	}
 	
 	@GetMapping("/mean/wins")
@@ -45,4 +45,5 @@ public class TeamAnslysisController {
 	public int getModeWins() {
 		return teamAnalysisService.calculateModeWins();
 	}
+	
 }

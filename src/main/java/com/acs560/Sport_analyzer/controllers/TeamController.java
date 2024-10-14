@@ -54,7 +54,7 @@ public class TeamController {
      */
     @GetMapping("/year/{year}")
     public ResponseEntity<Object> getTeams(@PathVariable int year) {
-        return ResponseEntity.ok(teamService.getTeams(year));
+        return ResponseEntity.ok(teamService.getTeamsByYear(year));
     }
 
     /**
@@ -62,15 +62,15 @@ public class TeamController {
      * @param league - the league
      * @return - list of all teams filtered by league
      */
-    @GetMapping("/league/{league}")
+  /*  @GetMapping("/league/{league}")
     public ResponseEntity<Object> getTeams(@PathVariable String league) {
         return ResponseEntity.ok(teamService.getTeams(league));
-    }
+    } */
 
-    @GetMapping("/year/{year}/league/{league}")
+   /* @GetMapping("/year/{year}/league/{league}")
     public ResponseEntity<Object> getTeams(@PathVariable int year, @PathVariable String league) {
         return ResponseEntity.ok(teamService.getTeams(league, year));
-    }
+    } */
 
     @PostMapping()
     public ResponseEntity<Team> add(@RequestBody Team team) {
@@ -90,4 +90,3 @@ public class TeamController {
         return ResponseEntity.ok().build();
     }
 }
-

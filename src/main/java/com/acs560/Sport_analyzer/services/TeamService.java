@@ -13,7 +13,7 @@ public interface TeamService {
 	 * @param year - the year
 	 * @return - the Team
 	 */
-	Optional<Team> getTeam(String name, int year);
+	//Optional<Team> getTeam(String name, int year);
 	
 	/**
 	 * Get the list of all teams
@@ -26,7 +26,7 @@ public interface TeamService {
 	 * @param name - the name
 	 * @return - the list of teams filtered by name
 	 */
-	List<Team> getTeams(String name);
+	List<Team> getTeamsByName(String name);
 	
 	/**
 	 * Get the teams filtered by name and year
@@ -34,31 +34,22 @@ public interface TeamService {
 	 * @param year - the year
 	 * @return
 	 */
-	List<Team> getTeams(String name, int year);
 	
 	void addTeam(Team team);
 	void deleteTeam(Team team);
 	void updateTeam(Team team);
 
-	List<Team> getTeams(int year);
+	List<Team> getTeamsByYear(int year);
 	
-	List<Team> getTeams(int year, int range);
+	List<Team> getTeamsByYearAndRange(int year, int range);
 
-	List<Team> getTeams(String name, int year, int range);
+	List<Team> getTeamsByNameAndYearAndRange(String name, int year, int range);
 
-	//Object getTeamsByYear(int year);
+	List<Team> getTeamByNameAndYear(String name, int year);
 
-	//Optional<Team> getTeamByName(String name);
+	Optional<Team> getTeam(String name, int year);
 
-	//Object getTeamsByLeague(String league);
-
-	//Object getTeamsByYearAndLeague(int year, String league);
-
-	//void delete(Team team);
-
-	//void update(Team team);
-
-	//void add(Team team);
+	
 
 
 	

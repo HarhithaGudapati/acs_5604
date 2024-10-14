@@ -1,7 +1,6 @@
 package com.acs560.Sport_analyzer.services.impl;
 
 import java.util.Comparator;
-
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -16,27 +15,28 @@ import com.acs560.Sport_analyzer.services.TeamAnalysisService;
 import com.acs560.Sport_analyzer.services.TeamService;
 
 @Service
-public class TeamAnalysisServiceImpl implements TeamAnalysisService {
+public  class TeamAnalysisServiceImpl implements TeamAnalysisService {
 
 	@Autowired
 	TeamService ts;
 	
 	@Override
-	public double calculateAverageWins(String league) throws NoSuchElementException {
-		List<Team> filtered = ts.getTeams(league);
-		return getAverageWins(filtered);
-	}
-	
-	@Override
-	public double calculateAverageWins(String league, int year) {		
-		List<Team> teams = ts.getTeams(league, year);
+	public double calculateAverageWinsForYear(int year) {
+		List<Team> teams = ts.getTeamsByYear(year);
 		return getAverageWins(teams);
 	}
 	
 	@Override
+	public double calculateAverageWinsForYearAndRange(int year, int Range) {		
+		List<Team> teams = ts.getTeamsByYearAndRange(year, Range);
+		return getAverageWins(teams);
+	}
+	
+
+	@Override
 	public double calculateMeanWins() {
 		var teams = this.ts.getTeams();
-		return getMeanWins(teams);
+		return getAverageWins(teams);
 	}
 
 	@Override
@@ -58,15 +58,6 @@ public class TeamAnalysisServiceImpl implements TeamAnalysisService {
 				.average()
 				.orElseThrow();
 		return average;
-	}
-
-	private double getMeanWins(List<Team> teams) {
-		double mean = teams
-				.stream()
-				.mapToDouble(Team::getWins)
-				.average()
-				.orElseThrow();
-		return mean;
 	}
 
 	private double getMedianWins(List<Team> teams) {
@@ -93,6 +84,7 @@ public class TeamAnalysisServiceImpl implements TeamAnalysisService {
 				.orElseThrow();
 		return mode;
 	}
+
 
 }
 

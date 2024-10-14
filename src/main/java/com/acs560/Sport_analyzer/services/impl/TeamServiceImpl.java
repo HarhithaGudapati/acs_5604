@@ -31,7 +31,7 @@ public class TeamServiceImpl implements TeamService {
 	
 	@Override
 	public Optional<Team> getTeam(String name, int year) {
-		TeamEntityId id = new TeamEntityId(year, name, name);
+		TeamEntityId id = new TeamEntityId(year, name);
 		var te = tr.findById(id);
 		Optional<Team> result = te.isPresent() ? Optional.of(new Team(te.get())) : Optional.empty(); 
 		
@@ -45,35 +45,35 @@ public class TeamServiceImpl implements TeamService {
 	}
 
 	@Override
-	public List<Team> getTeams(String name) {
-		var teamEntities = tr.findAllByIdName(name);
+	public List<Team> getTeamsByName(String name) {
+		var teamEntities = tr.findAllByIdTeam(name);
 		return from(teamEntities);
 	}
 	
 	@Override
-	public List<Team> getTeams(String name, int year) {
-		var teamEntities = tr.findAllByIdYearAndIdName(year, name);
+	public List<Team> getTeamByNameAndYear (String name, int year) {
+		var teamEntities = tr.findAllByIdLeagueyearAndIdTeam(year, name);
 		return from(teamEntities);
 	}
 	
 	@Override
-	public List<Team> getTeams(int year) {
-		var teamEntities = tr.findAllByIdYear(year);
+	public List<Team> getTeamsByYear(int year) {
+		var teamEntities = tr.findAllByIdLeagueyear(year);
 		return from(teamEntities);
 	}
 	
 	@Override
-	public List<Team> getTeams(int year, int range) {
+	public List<Team> getTeamsByYearAndRange(int year, int range) {
 		var years = getRange(year, range);
-		var teamEntities = tr.findAllByIdYearIn(years);
+		var teamEntities = tr.findAllByIdLeagueyearIn(years);
 		
 		return from(teamEntities);
 	}
 	
 	@Override
-	public List<Team> getTeams(String name, int year, int range) {
+	public List<Team> getTeamsByNameAndYearAndRange(String name, int year, int range) {
 		var years = getRange(year, range);
-		var teamEntities = tr.findAllByIdNameAndIdYearIn(name, years);
+		var teamEntities = tr.findAllByIdTeamAndIdLeagueyearIn(name, years);
 		
 		return from(teamEntities);
 	}
